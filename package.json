@@ -3,6 +3,11 @@
 	"displayName": "helpue",
 	"description": "development support for js,ts,vue",
 	"version": "0.0.1",
+	"publisher": "czzczz",
+	"author": {
+		"name": "czzczz",
+		"url": "https://github.com/czzczz"
+	},
 	"engines": {
 		"vscode": "^1.51.0"
 	},
@@ -74,5 +79,9 @@
 		"vscode-test": "^1.4.0",
 		"webpack": "^4.44.1",
 		"webpack-cli": "^3.3.12"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/czzczz/helpue"
 	}
 }
