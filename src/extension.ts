@@ -32,8 +32,7 @@ export function activate(context: vs.ExtensionContext): void {
 	);
 	// dochere entry
 	context.subscriptions.push(
-		vs.commands.registerCommand('helpue.documentHere', (forCompletion: boolean) => {
-			// forCompletion 为 DocHereCompletionItem 传递的参数
+		vs.commands.registerCommand('helpue.documentHere', () => {
 			const commandName = 'Document Here';
 
 			if (!editorChecker) editorChecker = new EditorChecker();
@@ -44,7 +43,7 @@ export function activate(context: vs.ExtensionContext): void {
 				if (!documentHero) documentHero = new DocumentHero();
 
 				try {
-					documentHero.documentHere(<vs.TextEditor>vs.window.activeTextEditor, commandName, forCompletion);
+					documentHero.documentHere(<vs.TextEditor>vs.window.activeTextEditor, commandName);
 				} catch (e) {
 					// console.log(e);
 					vs.window.showWarningMessage(e);

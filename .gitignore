@@ -6,3 +6,4 @@ dist
 yarn.lock
 package-lock.json
 *.vsix
+*-error.log

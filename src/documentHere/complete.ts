@@ -15,7 +15,7 @@ export default class DocHereCompletionItem extends vs.CompletionItem {
 		this.command = {
 			title: 'Document Here',
 			command: 'helpue.documentHere',
-			arguments: [true],
+			arguments: [],
 		};
 	}
 }
