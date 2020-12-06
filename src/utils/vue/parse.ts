@@ -21,7 +21,7 @@ interface ENodeProp {
 	value?: string;
 }
 
-interface ENode {
+export interface ENode {
 	parent?: ENode;
 	name: string;
 	pos?: number;
@@ -54,7 +54,8 @@ function getTagInfo(text: string) {
 					const pInfo = p.split('=');
 					res.props.push({
 						key: pInfo[0],
-						value: pInfo[1],
+						// 将props的双引号或单引号去掉
+						value: pInfo[1].slice(1, -1),
 					});
 				} else
 					res.props.push({
@@ -72,7 +73,7 @@ function getTagInfo(text: string) {
  * @returns {ENodeRoot} 构建完成的树
  */
 export function buildAST(text: string) {
-	console.time();
+	// console.time();
 	const tagList = text.match(reg.tag());
 	const textLength = text.length;
 	const tree: ENodeRoot = {
@@ -107,14 +108,41 @@ export function buildAST(text: string) {
 			};
 			p.children?.push(newNode);
 			if (!reg.tagAutoClose().test(t)) p = newNode;
-			else newNode.contentPos = undefined;
+			else {
+				newNode.contentPos = newNode.contentEnd = undefined;
+				newNode.end = pText;
+			}
 		}
 	});
-	console.timeEnd();
+	// console.timeEnd();
 	return tree;
 }
 
 export const parse = buildAST;
+
+/**
+ * @description 对目标树进行深度遍历
+ *
+ * @function traverseAST
+ * @author chanzrz
+ * @date 2020-12-06
+ * @param {ENode} ast 需要开始遍历的ENode节点
+ * @param {function} [cb=(node: ENode) => { console.log(node); }] 回调，每个节点都会执行
+ * @param {ENode} cb.node 回调时传递的参数
+ */
+export function traverseAST(
+	ast: ENode,
+	cb = (node: ENode) => {
+		console.log(node);
+	}
+) {
+	cb(ast);
+	ast.children.forEach(c => {
+		traverseAST(c, cb);
+	});
+}
+
+export const traverse = traverseAST;
 
 /**
  * @description 查询属性列表中是否包含目标属性，若有的话同时返回其内容
@@ -126,7 +154,7 @@ export function getENodePropsValue(props: ENodeProp[], target: string): [boolean
 	let has = false,
 		res = undefined;
 	props.forEach(p => {
-		if (p.key === target) {
+		if (new RegExp(`^${target}$`).test(p.key)) {
 			has = true;
 			res = p.value;
 		}

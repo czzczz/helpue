@@ -2,7 +2,7 @@
 	"name": "helpue",
 	"displayName": "helpue",
 	"description": "development support for js,ts,vue",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"publisher": "czzczz",
 	"author": {
 		"name": "czzczz",
@@ -11,6 +11,12 @@
 	"engines": {
 		"vscode": "^1.51.0"
 	},
+	"keywords": [
+		"vue",
+		"ts",
+		"jsdoc",
+		"definition"
+	],
 	"categories": [
 		"Other"
 	],

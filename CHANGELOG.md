@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.2.0] - 2020-12-06
+
+### Added
+
+-   goDef Content
+
 ## [0.1.0] - 2020-11-28
 
 ### Added

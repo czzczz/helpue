@@ -2,6 +2,16 @@
 
 support vue/js/jsx/ts/tsx development
 
+## goDef
+
+pick all `valid` definition in vue component.
+
+including
+
+-   vue options config(`props`, `data`, `setup` and others)
+-   template definition(`ref in vue2`, `v-for`, `slot-scope`, `v-slot`)
+-   class and identifiers definition in style tag
+
 ## Document Here
 
 remake from `Document This` ([Click to Go](https://github.com/oouo-diogo-perdigao/vscode-docthis)) and support more config.
@@ -10,7 +20,7 @@ remake from `Document This` ([Click to Go](https://github.com/oouo-diogo-perdiga
 
 this content is made for generate JSDOC for js/jsx/ts/tsx/vue file
 
-`"ctrl+alt+d ctrl+alt+d"` or complete item
+`'ctrl+alt+d ctrl+alt+d'` or complete item `'/**'`
 
 ### helpue.documentHere.hideHeaderDescription
 

@@ -3,11 +3,12 @@ import * as vs from 'vscode';
 import EditorChecker, { defaultLanguageIds } from './editorChecker';
 import DocumentHero from './documentHere';
 import DocHereCompletionItem from './documentHere/complete';
+import VueComponentDefProvider from './goDef';
 
 let editorChecker: EditorChecker;
 let documentHero: DocumentHero;
 
-export function activate(context: vs.ExtensionContext): void {
+function docHereRegister(context: vs.ExtensionContext) {
 	const languageEntries = defaultLanguageIds.map(l => ({ scheme: 'file', language: l }));
 
 	// dochere completionItem
@@ -51,4 +52,23 @@ export function activate(context: vs.ExtensionContext): void {
 			});
 		})
 	);
+}
+
+function goDefRegister(context: vs.ExtensionContext) {
+	const editor = vs.window.activeTextEditor;
+	if (!editor || editor.document.languageId !== 'vue') return;
+	context.subscriptions.push(
+		vs.languages.setLanguageConfiguration('vue', {
+			// 区分单词的正则，会影响getWordRangeAtPosition的选择结果
+			wordPattern: /(\w+((-\w+)+)?)/,
+		})
+	);
+	context.subscriptions.push(vs.languages.registerDefinitionProvider(['vue'], new VueComponentDefProvider()));
+}
+
+export function activate(context: vs.ExtensionContext): void {
+	// docHere
+	docHereRegister(context);
+	// goDef
+	goDefRegister(context);
 }
