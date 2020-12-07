@@ -332,16 +332,31 @@ export default class DefCollector {
 
 	collect(): vs.Location[] {
 		const targetName = this.__doc.getText(this.__target);
+
+		const strBefore = this.__doc.getText(new vs.Range(this.__doc.positionAt(0), this.__target.start));
+		// const strAfter = this.__doc.getText(
+		// 	new vs.Range(this.__target.end, this.positionAt(this.__doc.getText().length - 1))
+		// );
+		let targetIsRef = false;
+		// 是否点击的$refs
+		if (strBefore.endsWith('$refs.') || strBefore.endsWith("$refs['") || strBefore.endsWith('$refs["'))
+			targetIsRef = true;
+
 		console.log(targetName);
 		const res: vs.Location[] = [];
 		this.__defGroup.forEach(def => {
-			if (def.name === targetName) {
+			if (targetIsRef) {
+				// 点击的$refs，需要跳转到template中的对应定义
+				if (def.name === targetName && def.type === 'ref') res.push(this.getLocation(def));
+			} else if (def.name === targetName) {
 				if (
 					isTemplateDefType(def) &&
 					(def as TemplateDefinition).activeScope &&
 					!(def as TemplateDefinition).activeScope?.contains(this.__target)
 				)
+					// 点击的位置不在模板定义的有效作用域内
 					return;
+				else if (def.type === 'ref') return;
 				else res.push(this.getLocation(def));
 			}
 		});
